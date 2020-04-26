@@ -1,0 +1,159 @@
+﻿如果是双字段主键，则连接条件里加多一个字段就行了
+建议修改如下试一试：
+update a.menu_option set a.menu_option.`option_text`
+= (select `option_text` from f.menu_option 
+where a.menu_option.menu_id = f.menu_option.menu_id and 
+a.menu_option.id = f.menu_option.id) 
+where exists ( select 1 from f.menu_option where 
+a.menu_option.menu_id = f.menu_option.menu_id 
+and a.menu_option.id = f.menu_option.id)
+
+或者这样写
+update a.menu_option, f.menu_option 
+set a.menu_option.`option_text`=f.menu_option.`option_text` 
+where a.menu_option.menu_id = f.menu_option.menu_id 
+and  a.menu_option.id = f.menu_option.id
+===================================================================
+
+--物品表汉化
+update world_bf.item_template set world_bf.item_template.`name` = (select `name` from world_xiaoyao.item_template where world_bf.item_template.entry = world_xiaoyao.item_template.entry)
+               where exists ( select 1 from world_xiaoyao.item_template where world_bf.item_template.entry = world_xiaoyao.item_template.entry);
+
+update world_bf.item_template set world_bf.item_template.`description` = (select `description` from world_xiaoyao.item_template where world_bf.item_template.entry = world_xiaoyao.item_template.entry)
+               where exists ( select 1 from world_xiaoyao.item_template where world_bf.item_template.entry = world_xiaoyao.item_template.entry);
+--生物表汉化
+update world_bf.creature_template set world_bf.creature_template.`name` = (select `name` from world_xiaoyao.creature_template where world_bf.creature_template.entry = world_xiaoyao.creature_template.entry)
+               where exists ( select 1 from world_xiaoyao.creature_template where world_bf.creature_template.entry = world_xiaoyao.creature_template.entry);
+
+update world_bf.creature_template set world_bf.creature_template.`subname` = (select `subname` from world_xiaoyao.creature_template where world_bf.creature_template.entry = world_xiaoyao.creature_template.entry)
+               where exists ( select 1 from world_xiaoyao.creature_template where world_bf.creature_template.entry = world_xiaoyao.creature_template.entry);
+--任务表汉化
+update world_bf.quest_template set world_bf.quest_template.`LogTitle` = (select `title` from world_xiaoyao.quest_template where world_bf.quest_template.id = world_xiaoyao.quest_template.id)
+               where exists ( select 1 from world_xiaoyao.quest_template where world_bf.quest_template.id = world_xiaoyao.quest_template.id);	
+			   
+update world_bf.quest_template set world_bf.quest_template.`LogDescription` = (select `Objectives` from world_xiaoyao.quest_template where world_bf.quest_template.id = world_xiaoyao.quest_template.id)
+               where exists ( select 1 from world_xiaoyao.quest_template where world_bf.quest_template.id = world_xiaoyao.quest_template.id);	
+			   
+update world_bf.quest_template set world_bf.quest_template.`QuestDescription` = (select `Details` from world_xiaoyao.quest_template where world_bf.quest_template.id = world_xiaoyao.quest_template.id)
+               where exists ( select 1 from world_xiaoyao.quest_template where world_bf.quest_template.id = world_xiaoyao.quest_template.id);	
+			   
+update world_bf.quest_template set world_bf.quest_template.`AreaDescription` = (select `EndText` from world_xiaoyao.quest_template where world_bf.quest_template.id = world_xiaoyao.quest_template.id)
+               where exists ( select 1 from world_xiaoyao.quest_template where world_bf.quest_template.id = world_xiaoyao.quest_template.id);	
+			   
+update world_bf.quest_offer_reward set world_bf.quest_offer_reward.`RewardText` = (select `OfferRewardText` from world_xiaoyao.quest_template where world_bf.quest_offer_reward.id = world_xiaoyao.quest_template.id)
+               where exists ( select 1 from world_xiaoyao.quest_template where world_bf.quest_offer_reward.id = world_xiaoyao.quest_template.id);	
+			   
+update world_bf.quest_request_items set world_bf.quest_request_items.`CompletionText` = (select `RequestItemsText` from world_xiaoyao.quest_template where world_bf.quest_request_items.id = world_xiaoyao.quest_template.id)
+               where exists ( select 1 from world_xiaoyao.quest_template where world_bf.quest_request_items.id = world_xiaoyao.quest_template.id);	
+			   
+update world_bf.quest_template set world_bf.quest_template.`QuestCompletionLog` = (select `CompletedText` from world_xiaoyao.quest_template where world_bf.quest_template.id = world_xiaoyao.quest_template.id)
+               where exists ( select 1 from world_xiaoyao.quest_template where world_bf.quest_template.id = world_xiaoyao.quest_template.id);	
+
+update world_bf.quest_template set world_bf.quest_template.`ObjectiveText1` = (select `ObjectiveText1` from world_xiaoyao.quest_template where world_bf.quest_template.id = world_xiaoyao.quest_template.id)
+               where exists ( select 1 from world_xiaoyao.quest_template where world_bf.quest_template.id = world_xiaoyao.quest_template.id);	
+
+			   
+--副本传送点汉化			   
+update world_bf.areatrigger_teleport set world_bf.areatrigger_teleport.`name` = (select `name` from world_xiaoyao.areatrigger_teleport where world_bf.areatrigger_teleport.id = world_xiaoyao.areatrigger_teleport.id)
+               where exists ( select 1 from world_xiaoyao.areatrigger_teleport where world_bf.areatrigger_teleport.id = world_xiaoyao.areatrigger_teleport.id);	
+
+
+--npc对话列表汉化
+update world_bf.gossip_menu_option, world_xiaoyao.gossip_menu_option 
+set world_bf.gossip_menu_option.`OptionText`=world_xiaoyao.gossip_menu_option.`option_text` 
+where world_bf.gossip_menu_option.MenuID = world_xiaoyao.gossip_menu_option.menu_id 
+and  world_bf.gossip_menu_option.OptionID = world_xiaoyao.gossip_menu_option.id;
+		   
+
+
+--信封汉化
+update world_bf.page_text set world_bf.page_text.`text` = (select `text` from world_xiaoyao.page_text where world_bf.page_text.id = world_xiaoyao.page_text.entry)
+               where exists ( select 1 from world_xiaoyao.page_text where world_bf.page_text.id = world_xiaoyao.page_text.entry);
+
+--系统trinity_string汉化
+update world_bf.trinity_string set world_bf.trinity_string.`content_default` = (select `content_default` from world_xiaoyao.trinity_string where world_bf.trinity_string.entry = world_xiaoyao.trinity_string.entry)
+               where exists ( select 1 from world_xiaoyao.trinity_string where world_bf.trinity_string.entry = world_xiaoyao.trinity_string.entry);
+
+--游戏事件汉化
+update world_bf.game_event set world_bf.game_event.`description` = (select `description` from world_xiaoyao.game_event where world_bf.game_event.eventEntry = 
+
+world_xiaoyao.game_event.eventEntry)
+               where exists ( select 1 from world_xiaoyao.game_event where world_bf.game_event.eventEntry = world_xiaoyao.game_event.eventEntry);
+
+
+--成就奖励汉化
+update world_bf.game_event set world_bf.game_event.`description` = (select `description` from world_xiaoyao.game_event where world_bf.game_event.eventEntry = 
+
+world_xiaoyao.game_event.eventEntry)
+               where exists ( select 1 from world_xiaoyao.game_event where world_bf.game_event.eventEntry = world_xiaoyao.game_event.eventEntry);
+
+
+--成就奖励汉化
+update world_bf.game_event set world_bf.game_event.`description` = (select `description` from world_xiaoyao.game_event where world_bf.game_event.eventEntry = 
+
+world_xiaoyao.game_event.eventEntry)
+               where exists ( select 1 from world_xiaoyao.game_event where world_bf.game_event.eventEntry = world_xiaoyao.game_event.eventEntry);
+
+
+			   
+--生物喊话表汉化
+update world_bf.creature_text, world_xiaoyao.creature_text 
+set world_bf.creature_text.`text`=world_xiaoyao.creature_text.`text` 
+where world_bf.creature_text.CreatureID =  world_xiaoyao.creature_text.entry
+and  world_bf.creature_text.groupid = world_xiaoyao.creature_text.groupid	
+and  world_bf.creature_text.id = world_xiaoyao.creature_text.id	;	   
+
+
+--物体表汉化			   
+update world_bf.gameobject_template set world_bf.gameobject_template.`name` = (select `name` from world_xiaoyao.gameobject_template where world_bf.gameobject_template.entry = world_xiaoyao.gameobject_template.entry)
+               where exists ( select 1 from world_xiaoyao.gameobject_template where world_bf.gameobject_template.entry = world_xiaoyao.gameobject_template.entry);
+
+--NPC_text表汉化			   
+update world_bf.npc_text set world_bf.npc_text.`text0_0` = (select `text0_0` from world_xiaoyao.npc_text where world_bf.npc_text.id = world_xiaoyao.npc_text.id)
+               where exists ( select 1 from world_xiaoyao.npc_text where world_bf.npc_text.id = world_xiaoyao.npc_text.id);			   
+			   			   
+update world_bf.npc_text set world_bf.npc_text.`text0_1` = (select `text0_1` from world_xiaoyao.npc_text where world_bf.npc_text.id = world_xiaoyao.npc_text.id)
+               where exists ( select 1 from world_xiaoyao.npc_text where world_bf.npc_text.id = world_xiaoyao.npc_text.id);
+			   
+update world_bf.npc_text set world_bf.npc_text.`text1_0` = (select `text1_0` from world_xiaoyao.npc_text where world_bf.npc_text.id = world_xiaoyao.npc_text.id)
+               where exists ( select 1 from world_xiaoyao.npc_text where world_bf.npc_text.id = world_xiaoyao.npc_text.id);			   
+			   			   
+update world_bf.npc_text set world_bf.npc_text.`text1_1` = (select `text1_1` from world_xiaoyao.npc_text where world_bf.npc_text.id = world_xiaoyao.npc_text.id)
+               where exists ( select 1 from world_xiaoyao.npc_text where world_bf.npc_text.id = world_xiaoyao.npc_text.id);
+			   
+update world_bf.npc_text set world_bf.npc_text.`text2_0` = (select `text2_0` from world_xiaoyao.npc_text where world_bf.npc_text.id = world_xiaoyao.npc_text.id)
+               where exists ( select 1 from world_xiaoyao.npc_text where world_bf.npc_text.id = world_xiaoyao.npc_text.id);			   
+			   			   
+update world_bf.npc_text set world_bf.npc_text.`text2_1` = (select `text2_1` from world_xiaoyao.npc_text where world_bf.npc_text.id = world_xiaoyao.npc_text.id)
+               where exists ( select 1 from world_xiaoyao.npc_text where world_bf.npc_text.id = world_xiaoyao.npc_text.id);
+			   
+update world_bf.npc_text set world_bf.npc_text.`text3_0` = (select `text3_0` from world_xiaoyao.npc_text where world_bf.npc_text.id = world_xiaoyao.npc_text.id)
+               where exists ( select 1 from world_xiaoyao.npc_text where world_bf.npc_text.id = world_xiaoyao.npc_text.id);			   
+			   			   
+update world_bf.npc_text set world_bf.npc_text.`text3_1` = (select `text3_1` from world_xiaoyao.npc_text where world_bf.npc_text.id = world_xiaoyao.npc_text.id)
+               where exists ( select 1 from world_xiaoyao.npc_text where world_bf.npc_text.id = world_xiaoyao.npc_text.id);			   			   
+			   
+update world_bf.npc_text set world_bf.npc_text.`text4_0` = (select `text4_0` from world_xiaoyao.npc_text where world_bf.npc_text.id = world_xiaoyao.npc_text.id)
+               where exists ( select 1 from world_xiaoyao.npc_text where world_bf.npc_text.id = world_xiaoyao.npc_text.id);			   
+			   			   
+update world_bf.npc_text set world_bf.npc_text.`text4_1` = (select `text4_1` from world_xiaoyao.npc_text where world_bf.npc_text.id = world_xiaoyao.npc_text.id)
+               where exists ( select 1 from world_xiaoyao.npc_text where world_bf.npc_text.id = world_xiaoyao.npc_text.id);
+			   
+update world_bf.npc_text set world_bf.npc_text.`text5_0` = (select `text5_0` from world_xiaoyao.npc_text where world_bf.npc_text.id = world_xiaoyao.npc_text.id)
+               where exists ( select 1 from world_xiaoyao.npc_text where world_bf.npc_text.id = world_xiaoyao.npc_text.id);			   
+			   			   
+update world_bf.npc_text set world_bf.npc_text.`text5_1` = (select `text5_1` from world_xiaoyao.npc_text where world_bf.npc_text.id = world_xiaoyao.npc_text.id)
+               where exists ( select 1 from world_xiaoyao.npc_text where world_bf.npc_text.id = world_xiaoyao.npc_text.id);
+			   
+update world_bf.npc_text set world_bf.npc_text.`text6_0` = (select `text6_0` from world_xiaoyao.npc_text where world_bf.npc_text.id = world_xiaoyao.npc_text.id)
+               where exists ( select 1 from world_xiaoyao.npc_text where world_bf.npc_text.id = world_xiaoyao.npc_text.id);			   
+			   			   
+update world_bf.npc_text set world_bf.npc_text.`text6_1` = (select `text6_1` from world_xiaoyao.npc_text where world_bf.npc_text.id = world_xiaoyao.npc_text.id)
+               where exists ( select 1 from world_xiaoyao.npc_text where world_bf.npc_text.id = world_xiaoyao.npc_text.id);	
+			   
+update world_bf.npc_text set world_bf.npc_text.`text7_0` = (select `text7_0` from world_xiaoyao.npc_text where world_bf.npc_text.id = world_xiaoyao.npc_text.id)
+               where exists ( select 1 from world_xiaoyao.npc_text where world_bf.npc_text.id = world_xiaoyao.npc_text.id);			   
+			   			   
+update world_bf.npc_text set world_bf.npc_text.`text7_1` = (select `text7_1` from world_xiaoyao.npc_text where world_bf.npc_text.id = world_xiaoyao.npc_text.id)
+               where exists ( select 1 from world_xiaoyao.npc_text where world_bf.npc_text.id = world_xiaoyao.npc_text.id);
+			   
