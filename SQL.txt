@@ -1,0 +1,3 @@
+提取TC汉化数据
+select concat('update quest_template set LogTitle=''', replace(ifnull(LogTitle,''),"'","''"),''', LogDescription=''', replace(ifnull(LogDescription,''),"'","''"),''' ,QuestDescription=''', replace(ifnull(QuestDescription,''),"'","''"),''' , AreaDescription=''', replace(ifnull(AreaDescription,''),"'","''"),''' , QuestCompletionLog=''', replace(ifnull(QuestCompletionLog,''),"'","''"),''' , ObjectiveText1=''', replace(ifnull(ObjectiveText1,''),"'","''"),''' , ObjectiveText2=''', replace(ifnull(ObjectiveText2,''),"'","''"),''' , ObjectiveText3=''', replace(ifnull(ObjectiveText3,''),"'","''"),''' , ObjectiveText4=''', replace(ifnull(ObjectiveText4,''),"'","''"),''' where ID=',convert(ID,char),';')
+from quest_template;
